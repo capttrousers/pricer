@@ -11,9 +11,7 @@ import org.junit.rules.ExpectedException;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-/**
- * Created by sam on 4/16/17.
- */
+
 public class MarketTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

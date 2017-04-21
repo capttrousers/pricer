@@ -1,13 +1,11 @@
 package com.company;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class Book {
     static HashMap<String, Order> buyHM, sellHM;
-
     Book() {
         buyHM = new HashMap<>();
         sellHM = new HashMap<>();
@@ -67,18 +65,18 @@ public class Book {
             pq.add(iterator.next());
         }
         int sharesRemaining = targetSize;
-        BigDecimal value = new BigDecimal(0);
+        int value = 0;
         while(sharesRemaining > 0 && ! pq.isEmpty()) {
             Order order = pq.poll();
             int hitShares = Math.min(sharesRemaining, order.size);
-            value = value.add(BigDecimal.valueOf(order.priceInCents).multiply(BigDecimal.valueOf(hitShares)));
+            value += order.priceInCents  * hitShares;
             sharesRemaining -= order.size;
         }
         if(sharesRemaining > 0) {
             // if there are still sharesRemaining, can't complete order
             return "NA";
         }
-        String valueInCents = value.toPlainString();
+        String valueInCents = "" + value;
 
         return valueInCents.substring(0, valueInCents.length() - 2) + "." + valueInCents.substring(valueInCents.length() - 2);
     }

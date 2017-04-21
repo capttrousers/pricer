@@ -3,8 +3,6 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 public class Main {
 
@@ -25,8 +23,10 @@ public class Main {
         String currentSellIncome = "NA";
         String currentBuyExpense = "NA";
         BufferedReader reader = null;
+        long startTimeInNanos;
         try {
             reader = new BufferedReader(new InputStreamReader(System.in));
+            startTimeInNanos = System.nanoTime();
             while (true) {
                 String input = reader.readLine();
                 if(input != null) {
@@ -51,6 +51,10 @@ public class Main {
                             }
                         }
                     }
+                } else {
+                    double secondsPassed = (System.nanoTime() - startTimeInNanos) / 1000000000;
+                    System.out.println("secondsPassed = " + Double.toString(secondsPassed));
+                    System.exit(0);
                 }
             }
         } catch (IOException e) {
