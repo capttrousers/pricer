@@ -35,9 +35,9 @@ public class Main {
                     } else if ( getActionFromMessage(input).equals("reduce") && (! marketBook.containsOrderID(getOrderIDFromMessage(input)) ) ) {
                         System.err.println("invalid reduce message " + input);
                     } else {
-                        String side = getSideFromMessage(marketBook, input);
+                        String messageSide = getSideFromMessage(marketBook, input);
                         updateBook(input, marketBook);
-                        if(side.equals("sell")) {
+                        if(messageSide.equals("sell")) {
                             String newValue = marketBook.completeOrder("buy", targetSize);
                             if(! newValue.equals(currentBuyExpense)){
                                 System.out.println(getTimestampFromMessage(input) + " B " + newValue);
