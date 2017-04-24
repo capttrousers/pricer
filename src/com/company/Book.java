@@ -80,7 +80,7 @@ public class Book {
                         maxBuyPriceInCents--;
                     }
                 }
-                if(minBuyPriceInCents == maxBuyPriceInCents && sellPriceSize[minBuyPriceInCents] == 0) {
+                if(minBuyPriceInCents == maxBuyPriceInCents && buyPriceSize[minBuyPriceInCents] == 0) {
                     minBuyPriceInCents = MAXIMUM_PRICE_IN_CENTS;
                     maxBuyPriceInCents = 0;
                 }
