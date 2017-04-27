@@ -51,11 +51,12 @@ public class Main {
                             }
                         }
                     }
-                } else {
-                    double secondsPassed = (System.nanoTime() - startTimeInNanos) / 1000000000d;
-                    System.out.println("secondsPassed = " + Double.toString(secondsPassed));
-                    System.exit(0);
                 }
+//                else {
+//                    double secondsPassed = (System.nanoTime() - startTimeInNanos) / 1000000000d;
+//                    System.out.println("secondsPassed = " + Double.toString(secondsPassed));
+//                    System.exit(0);
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();

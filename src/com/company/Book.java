@@ -1,8 +1,6 @@
 package com.company;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.PriorityQueue;
 
 public class Book {
     static HashMap<String, Order> buyHM, sellHM;
@@ -107,74 +105,35 @@ public class Book {
     }
 
     // completeOrder() will be called after updating book. if new sell order added, we complete buy order.
-    // complete order will be on sideOfOrder for us, so us buying, hit sells in sell side of book
     public static String completeOrder(String sideOfOrder, int targetSize) { 
 
-            if(( sideOfOrder.equals("sell") ? maxBuyPriceInCents : maxSellPriceInCents) == 0) {
-                return "NA";
-            }
-            // sideOfOrder buy or sell
-            // for buys, we want to hit highest to lowest, as we hit buys, we're selling
-            
-            // sells, we want to hit lowest to highest, as we hit sells, we're buying
-        
-            int sharesRemaining = targetSize;
-            int valueInCents = 0;
-            
-            // grab appropriate int[] array, and set increment buys = -1, sells = 1
-            int[] array = sideOfOrder.equals("buy") ?  sellPriceSize :  buyPriceSize ;
-            int increment = sideOfOrder.equals("buy") ? 1 : -1;
-            // set starting price and stopping price for while loop
-            int currentPrice = sideOfOrder.equals("buy") ? minSellPriceInCents :  maxBuyPriceInCents ;
-            int stopPrice = sideOfOrder.equals("buy") ?  maxSellPriceInCents :  minBuyPriceInCents ;
-            int shares = Math.min(sharesRemaining, array[currentPrice]);
+        if(( sideOfOrder.equals("sell") ? maxBuyPriceInCents : maxSellPriceInCents) == 0) {
+            return "NA";
+        }
+        int sharesRemaining = targetSize;
+        int valueInCents = 0;
+
+        // grab appropriate int[] array, and set increment buys = -1, sells = 1
+        int[] array = sideOfOrder.equals("buy") ?  sellPriceSize :  buyPriceSize ;
+        int increment = sideOfOrder.equals("buy") ? 1 : -1;
+        // set starting price and stopping price for while loop
+        int currentPrice = sideOfOrder.equals("buy") ? minSellPriceInCents :  maxBuyPriceInCents ;
+        int stopPrice = sideOfOrder.equals("buy") ?  maxSellPriceInCents :  minBuyPriceInCents ;
+        int shares = Math.min(sharesRemaining, array[currentPrice]);
+        valueInCents += (shares * currentPrice);
+        sharesRemaining -= shares;
+        while(currentPrice != stopPrice && ! (sharesRemaining <= 0) ) {
+            currentPrice += increment;
+            shares = Math.min(sharesRemaining, array[currentPrice]);
             valueInCents += (shares * currentPrice);
             sharesRemaining -= shares;
-            while(currentPrice != stopPrice && ! (sharesRemaining <= 0) ) {
-                currentPrice += increment;
-                shares = Math.min(sharesRemaining, array[currentPrice]);
-                valueInCents += (shares * currentPrice);
-                sharesRemaining -= shares;
-            }
-            if(sharesRemaining <= 0) {
-                String valueInCentsStr = "" + valueInCents;
-                return valueInCentsStr.substring(0, valueInCentsStr.length() - 2) + "." + valueInCentsStr.substring(valueInCentsStr.length() - 2);
-            } else {
-                return "NA";
-            }
-
-        
-//        PriorityQueue<Order> pq;
-//        Iterator<Order> iterator;
-//        if(sideOfOrder.equals("buy")) {
-//            // buy orders are sorted highest to lowest
-//            // completing a buy order means hitting the book's sell orders, lowest to highest
-//            pq = new PriorityQueue<Order>(10, (Order a, Order b) -> (int) Math.signum(a.priceInCents - b.priceInCents));
-//            iterator = sellHM.values().iterator();
-//        } else {
-//            // sell orders are sorted lowest to highest
-//            // completing a sell order means hitting the book's buy orders, highest to lowest
-//            pq = new PriorityQueue<Order>(10, (Order a, Order b) -> (int) Math.signum(b.priceInCents - a.priceInCents));
-//            iterator = buyHM.values().iterator();
-//        }
-//        while(iterator.hasNext()) {
-//            pq.add(iterator.next());
-//        }
-//        int sharesRemaining = targetSize;
-//        int value = 0;
-//        while(sharesRemaining > 0 && ! pq.isEmpty()) {
-//            Order order = pq.poll();
-//            int hitShares = Math.min(sharesRemaining, order.size);
-//            value += order.priceInCents  * hitShares;
-//            sharesRemaining -= order.size;
-//        }
-//        if(sharesRemaining > 0) {
-//            // if there are still sharesRemaining, can't complete order
-//            return "NA";
-//        }
-//        String valueInCents = "" + value;
-//
-//        return valueInCents.substring(0, valueInCents.length() - 2) + "." + valueInCents.substring(valueInCents.length() - 2);
+        }
+        if(sharesRemaining <= 0) {
+            String valueInCentsStr = "" + valueInCents;
+            return valueInCentsStr.substring(0, valueInCentsStr.length() - 2) + "." + valueInCentsStr.substring(valueInCentsStr.length() - 2);
+        } else {
+            return "NA";
+        }
     }
 }
 
